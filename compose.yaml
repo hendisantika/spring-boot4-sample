@@ -1,1 +1,24 @@
 services:
+  mysql:
+    image: 'mysql:9.0.0'
+    container_name: spring-boot4-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: r00t53cret
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_DATABASE: spring_boot4_db
+      MYSQL_USER: yu71
+      MYSQL_PASSWORD: 53cret
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command: --bind-address=0.0.0.0
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pr00t53cret" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  mysql_data:
