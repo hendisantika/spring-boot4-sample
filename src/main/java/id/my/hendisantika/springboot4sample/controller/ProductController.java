@@ -26,7 +26,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/v1/products")
 @RequiredArgsConstructor
 @Slf4j
 public class ProductController {

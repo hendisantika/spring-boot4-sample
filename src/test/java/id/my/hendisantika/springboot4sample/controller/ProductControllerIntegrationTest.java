@@ -38,7 +38,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ProductControllerIntegrationTest {
 
     @Container
-    static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:9.0.0")
+    static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:9.5.0")
             .withDatabaseName("spring_boot4_db")
             .withUsername("yu71")
             .withPassword("53cret");
@@ -58,7 +58,7 @@ class ProductControllerIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        baseUrl = "http://localhost:" + port + "/api/products";
+        baseUrl = "http://localhost:" + port + "/api/v1/products";
         restClient = RestClient.create();
         productRepository.deleteAll();
     }
