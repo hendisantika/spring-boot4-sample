@@ -5,7 +5,7 @@ A sample CRUD REST API application built with Spring Boot 4, MySQL 9.5.0, and Ja
 ## Features
 
 - RESTful API with CRUD operations for Products
-- API versioning (v1)
+- Spring Boot 4 native API versioning using `version` attribute
 - MySQL 9.5.0 database with Docker Compose integration
 - JPA/Hibernate for data persistence
 - Bean validation
@@ -21,6 +21,53 @@ A sample CRUD REST API application built with Spring Boot 4, MySQL 9.5.0, and Ja
 - **Database**: MySQL 9.5.0
 - **Build Tool**: Maven
 - **Testing**: JUnit 5, Testcontainers
+
+## API Versioning (Spring Boot 4 Feature)
+
+This project demonstrates the new first-class API versioning introduced in Spring Framework 7 / Spring Boot 4.
+
+### Configuration
+
+API versioning is configured in `WebConfig.java` using `ApiVersionConfigurer`:
+
+```java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+    @Override
+    public void configureApiVersioning(ApiVersionConfigurer configurer) {
+        configurer
+            .usePathSegment(0)
+            .addSupportedVersions("1.0", "2.0")
+            .setDefaultVersion("1.0");
+    }
+}
+```
+
+### Controller Usage
+
+Controllers use the `version` attribute on mapping annotations:
+
+```java
+@GetMapping(version = "1.0")
+public ResponseEntity<ApiResponse<List<ProductResponse>>> getAllProducts() {
+    // ...
+}
+
+@GetMapping(path = "/{id}", version = "1.0")
+public ResponseEntity<ApiResponse<ProductResponse>> getProductById(@PathVariable Long id) {
+    // ...
+}
+```
+
+### Versioning Strategies
+
+Spring Boot 4 supports multiple versioning strategies:
+
+| Strategy     | Configuration                       | Example URL/Header           |
+|--------------|-------------------------------------|------------------------------|
+| Path-based   | `usePathSegment(0)`                 | `/api/v1.0/products`         |
+| Header-based | `useRequestHeader("X-API-Version")` | Header: `X-API-Version: 1.0` |
+| Query param  | `useRequestParameter("version")`    | `/api/products?version=1.0`  |
 
 ## Prerequisites
 
@@ -61,28 +108,28 @@ MySQL runs on port **3310** (mapped from container's 3306).
 
 ## API Endpoints
 
-Base URL: `http://localhost:8080/api/v1`
+Base URL: `http://localhost:8080/api/v1.0`
 
 ### Products API
 
-| Method | Endpoint                                | Description                  |
-|--------|-----------------------------------------|------------------------------|
-| POST   | `/v1/products`                          | Create a new product         |
-| GET    | `/v1/products`                          | Get all products             |
-| GET    | `/v1/products/{id}`                     | Get product by ID            |
-| GET    | `/v1/products/paged`                    | Get products with pagination |
-| GET    | `/v1/products/active`                   | Get all active products      |
-| GET    | `/v1/products/category/{category}`      | Get products by category     |
-| GET    | `/v1/products/search?keyword={keyword}` | Search products              |
-| PUT    | `/v1/products/{id}`                     | Update a product             |
-| DELETE | `/v1/products/{id}`                     | Delete a product             |
+| Method | Endpoint                                  | Description                  |
+|--------|-------------------------------------------|------------------------------|
+| POST   | `/v1.0/products`                          | Create a new product         |
+| GET    | `/v1.0/products`                          | Get all products             |
+| GET    | `/v1.0/products/{id}`                     | Get product by ID            |
+| GET    | `/v1.0/products/paged`                    | Get products with pagination |
+| GET    | `/v1.0/products/active`                   | Get all active products      |
+| GET    | `/v1.0/products/category/{category}`      | Get products by category     |
+| GET    | `/v1.0/products/search?keyword={keyword}` | Search products              |
+| PUT    | `/v1.0/products/{id}`                     | Update a product             |
+| DELETE | `/v1.0/products/{id}`                     | Delete a product             |
 
 ### Example Requests
 
 **Create Product:**
 
 ```bash
-curl -X POST http://localhost:8080/api/v1/products \
+curl -X POST http://localhost:8080/api/v1.0/products \
   -H "Content-Type: application/json" \
   -d '{
     "name": "iPhone 15",
@@ -97,19 +144,19 @@ curl -X POST http://localhost:8080/api/v1/products \
 **Get All Products:**
 
 ```bash
-curl http://localhost:8080/api/v1/products
+curl http://localhost:8080/api/v1.0/products
 ```
 
 **Get Products with Pagination:**
 
 ```bash
-curl "http://localhost:8080/api/v1/products/paged?page=0&size=10&sortBy=name&sortDir=asc"
+curl "http://localhost:8080/api/v1.0/products/paged?page=0&size=10&sortBy=name&sortDir=asc"
 ```
 
 **Search Products:**
 
 ```bash
-curl "http://localhost:8080/api/v1/products/search?keyword=phone"
+curl "http://localhost:8080/api/v1.0/products/search?keyword=phone"
 ```
 
 ## Actuator Endpoints
@@ -137,6 +184,7 @@ Integration tests use Testcontainers to spin up a MySQL 9.5.0 container automati
 src/
 ├── main/
 │   ├── java/id/my/hendisantika/springboot4sample/
+│   │   ├── config/         # API versioning configuration
 │   │   ├── controller/     # REST controllers
 │   │   ├── dto/            # Data Transfer Objects
 │   │   ├── entity/         # JPA entities
@@ -149,6 +197,11 @@ src/
 │   └── java/               # Integration tests
 └── compose.yaml            # Docker Compose configuration
 ```
+
+## References
+
+- [API Versioning in Spring](https://spring.io/blog/2025/09/16/api-versioning-in-spring/)
+- [Spring Boot 4 & Spring Framework 7 - Baeldung](https://www.baeldung.com/spring-boot-4-spring-framework-7)
 
 ## License
 

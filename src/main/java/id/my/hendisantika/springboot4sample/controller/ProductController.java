@@ -26,14 +26,14 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @RestController
-@RequestMapping("/v1/products")
+@RequestMapping("/products")
 @RequiredArgsConstructor
 @Slf4j
 public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping
+    @PostMapping(version = "1.0")
     public ResponseEntity<ApiResponse<ProductResponse>> createProduct(
             @Valid @RequestBody ProductRequest request) {
         log.info("REST request to create product: {}", request.getName());
@@ -43,21 +43,21 @@ public class ProductController {
                 .body(ApiResponse.success("Product created successfully", response));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(path = "/{id}", version = "1.0")
     public ResponseEntity<ApiResponse<ProductResponse>> getProductById(@PathVariable Long id) {
         log.info("REST request to get product by ID: {}", id);
         ProductResponse response = productService.getProductById(id);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
-    @GetMapping
+    @GetMapping(version = "1.0")
     public ResponseEntity<ApiResponse<List<ProductResponse>>> getAllProducts() {
         log.info("REST request to get all products");
         List<ProductResponse> products = productService.getAllProducts();
         return ResponseEntity.ok(ApiResponse.success("Products retrieved successfully", products));
     }
 
-    @GetMapping("/paged")
+    @GetMapping(path = "/paged", version = "1.0")
     public ResponseEntity<ApiResponse<PagedResponse<ProductResponse>>> getAllProductsPaged(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -68,7 +68,7 @@ public class ProductController {
         return ResponseEntity.ok(ApiResponse.success("Products retrieved successfully", response));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(path = "/{id}", version = "1.0")
     public ResponseEntity<ApiResponse<ProductResponse>> updateProduct(
             @PathVariable Long id,
             @Valid @RequestBody ProductRequest request) {
@@ -77,14 +77,14 @@ public class ProductController {
         return ResponseEntity.ok(ApiResponse.success("Product updated successfully", response));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(path = "/{id}", version = "1.0")
     public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable Long id) {
         log.info("REST request to delete product with ID: {}", id);
         productService.deleteProduct(id);
         return ResponseEntity.ok(ApiResponse.success("Product deleted successfully", null));
     }
 
-    @GetMapping("/category/{category}")
+    @GetMapping(path = "/category/{category}", version = "1.0")
     public ResponseEntity<ApiResponse<List<ProductResponse>>> getProductsByCategory(
             @PathVariable String category) {
         log.info("REST request to get products by category: {}", category);
@@ -92,14 +92,14 @@ public class ProductController {
         return ResponseEntity.ok(ApiResponse.success("Products retrieved successfully", products));
     }
 
-    @GetMapping("/active")
+    @GetMapping(path = "/active", version = "1.0")
     public ResponseEntity<ApiResponse<List<ProductResponse>>> getActiveProducts() {
         log.info("REST request to get active products");
         List<ProductResponse> products = productService.getActiveProducts();
         return ResponseEntity.ok(ApiResponse.success("Active products retrieved successfully", products));
     }
 
-    @GetMapping("/search")
+    @GetMapping(path = "/search", version = "1.0")
     public ResponseEntity<ApiResponse<List<ProductResponse>>> searchProducts(
             @RequestParam String keyword) {
         log.info("REST request to search products with keyword: {}", keyword);

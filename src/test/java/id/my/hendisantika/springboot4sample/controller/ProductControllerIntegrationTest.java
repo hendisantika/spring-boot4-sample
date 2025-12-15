@@ -58,7 +58,7 @@ class ProductControllerIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        baseUrl = "http://localhost:" + port + "/api/v1/products";
+        baseUrl = "http://localhost:" + port + "/api/v1.0/products";
         restClient = RestClient.create();
         productRepository.deleteAll();
     }
