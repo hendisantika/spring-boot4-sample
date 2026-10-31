@@ -6,13 +6,13 @@
 ![Dependabot](https://img.shields.io/badge/Dependabot-enabled-025E8C?logo=dependabot)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-A sample CRUD REST API application built with Spring Boot 4, MySQL 9.5.0, and Java 25.
+A sample CRUD REST API application built with Spring Boot 4, MySQL, and Java 25.
 
 ## Features
 
 - RESTful API with CRUD operations for Products
 - Spring Boot 4 native API versioning using `version` attribute
-- MySQL 9.5.0 database with Docker Compose integration
+- MySQL database with Docker Compose integration
 - JPA/Hibernate for data persistence
 - Bean validation
 - Global exception handling
@@ -24,7 +24,7 @@ A sample CRUD REST API application built with Spring Boot 4, MySQL 9.5.0, and Ja
 
 - **Java**: 25 (LTS, enforced via `maven-enforcer-plugin`)
 - **Spring Boot**: 4.1.2 (Spring Framework 7, Jackson 3)
-- **Database**: MySQL 9.5.0
+- **Database**: MySQL 26.10.0 via Docker Compose (integration tests run against `mysql:9.5.0`)
 - **Build Tool**: Maven 3.9+ (wrapper included)
 - **Testing**: JUnit 6, Testcontainers 2.x
 - **CI/CD**: GitHub Actions + Dependabot
@@ -191,7 +191,7 @@ curl "http://localhost:8080/api/v1.0/products/search?keyword=phone"
 ```
 
 Integration tests use Testcontainers 2.x (`testcontainers-mysql`, `testcontainers-junit-jupiter`) to spin up a
-MySQL 9.5.0 container automatically, so a running Docker daemon is required.
+MySQL (`mysql:9.5.0`) container automatically, so a running Docker daemon is required.
 
 ## Continuous Integration
 
