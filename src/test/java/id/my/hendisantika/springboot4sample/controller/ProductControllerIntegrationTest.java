@@ -13,7 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.web.client.RestClient;
-import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.mysql.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -38,7 +38,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ProductControllerIntegrationTest {
 
     @Container
-    static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:9.5.0")
+    static MySQLContainer mysql = new MySQLContainer("mysql:9.5.0")
             .withDatabaseName("spring_boot4_db")
             .withUsername("yu71")
             .withPassword("53cret");
