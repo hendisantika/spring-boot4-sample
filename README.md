@@ -211,7 +211,7 @@ The [`Java CI with Maven`](.github/workflows/maven.yml) workflow runs on every p
 |----------------|--------------|--------------------------------------------------------------------------|-----------------|
 | Maven          | Daily 05:00  | `spring-boot`, `testcontainers`, `maven-plugins`, other `minor-and-patch` | `build(deps)`   |
 | GitHub Actions | Daily 05:00  | All actions in one PR                                                    | `ci(deps)`      |
-| Docker Compose | Weekly (Mon) | MySQL image in `compose.yaml`                                            | `build(docker)` |
+| Docker Compose | Weekly (Mon) | MySQL image in `compose.yaml`                                            | `build(deps)`   |
 
 ## Project Structure
 
